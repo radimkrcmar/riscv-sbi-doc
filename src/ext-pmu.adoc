@@ -573,20 +573,26 @@ implement it.
 .SBI PMU Snapshot shared memory layout
 [cols="5,2,2,5", width=90%, align="center", options="header"]
 |===
-| Name                    | Offset   | Size | Description
-| counter_overflow_bitmap | 0x0000   | 8    | A bitmap of all logical overflown
-                                              counters relative to the
-					      `counter_idx_base`. This is valid
-					      only if the `Sscofpmf` ISA
-					      extension is available. Otherwise,
-					      it must be zero.
-| counter_values          | 0x0008   | 512  | An array of 64-bit logical
-                                              counters where each index
-                                              represents the value of each
-                                              logical counter associated with
-                                              hardware/firmware relative to the
-					      `counter_idx_base`.
-| Reserved                | 0x0208   | 3576 | Reserved for future use
+| Name                    | Offset   | Size          | Description
+| counter_overflow_bitmap | 0        | XLEN / 8      | A bitmap of all logical
+                                                       overflown counters
+                                                       relative to the
+                                                       `counter_idx_base`.
+                                                       This is valid only if
+                                                       the `Sscofpmf` ISA
+                                                       extension is available.
+                                                       Otherwise, it must be
+                                                       zero.
+| counter_values          | XLEN / 8 | 64 * XLEN / 8 | An array of 64-bit
+                                                       logical counters where
+                                                       each index represents
+                                                       the value of each
+                                                       logical counter
+                                                       associated with
+                                                       hardware/firmware
+                                                       relative to the
+                                                       `counter_idx_base`.
+| Reserved    | 65 * XLEN / 8 | 4096 - 65 * XLEN / 8 | Reserved for future use
 |===
 
 Any future revisions to this structure should be made in a backward compatible
