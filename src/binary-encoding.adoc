@@ -22,10 +22,10 @@ of SBI extensions. The SBI specification follows the below calling convention.
 [source, C]
 ----
     struct sbiret {
-        long error;
+        intmax_t error;
         union {
-            long value;
-            unsigned long uvalue;
+            intmax_t value;
+            uintmax_t uvalue;
         };
     };
 ----
@@ -65,7 +65,7 @@ If an SBI function call returns an error code other than `SBI_SUCCESS`, the
 value returned in `a1` is unspecified unless explicitly defined for that SBI
 function.
 
-Every SBI function should prefer `unsigned long` as the data type. It keeps
+Every SBI function should prefer `uintmax_t` as the data type. It keeps
 the specification simple and easily adaptable for all RISC-V ISA types.
 In case the data is defined as 32bit wide, higher privilege software must
 ensure that it only uses 32 bit data. Parameters that are 2×XLEN bits wide are
@@ -81,8 +81,8 @@ extensions defined in or after v0.2.
 
 Any SBI function, requiring a hart mask, must take the following two arguments:
 
-* `unsigned long hart_mask` is a scalar bit-vector containing hartids
-* `unsigned long hart_mask_base` is the starting hartid from which the
+* `uintmax_t hart_mask` is a scalar bit-vector containing hartids
+* `uintmax_t hart_mask_base` is the starting hartid from which the
    bit-vector must be computed.
 
 In a single SBI function call, the maximum number of harts that can be set is
@@ -141,5 +141,5 @@ NOTE: If the supervisor-mode software accesses the same physical memory
 * The data in the shared memory MUST follow little-endian byte ordering.
 
 It is recommended that a memory physical address passed to an SBI function
-should use at least two `unsigned long` parameters to support platforms
+should use at least two `uintmax_t` parameters to support platforms
 which have memory physical addresses wider than XLEN bits.
