@@ -143,3 +143,21 @@ NOTE: If the supervisor-mode software accesses the same physical memory
 It is recommended that a memory physical address passed to an SBI function
 should use at least two `uintmax_t` parameters to support platforms
 which have memory physical addresses wider than XLEN bits.
+
+
+=== Reserved values
+
+An SBI function can be specified with reserved bits in input registers `a0`
+through `a5`.  The SBI implementation MUST check that the reserved bits are
+zero and return SBI_ERR_INVALID_PARAM if they are not zero.
+All bits in registers that are not explicitly specified are reserved.
+
+[cols="1,2", width=90%, align="center", options="header"]
+|===
+| Error code            | Description
+| SBI_ERR_INVALID_PARAM | A reserved bit in SBI `ECALL` input registers is not zero.
+|===
+
+// TODO: do we want to zero them instead?
+Reserved bits in output register `a1` should not be used by the supervisor
+implementation.
